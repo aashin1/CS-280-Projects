@@ -27,7 +27,7 @@ Finally, the following folders will be automatically created as you develop your
 CS-280-Projects> java -cp lib/* src/Path/To/File.java
 ```
 
-#### Generate Documentation
+#### Generate Documentation 
 ```shell
 CS-280-Projects> javadoc -d docs -sourcepath src -subpackages assignments
 ```
