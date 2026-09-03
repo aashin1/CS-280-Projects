@@ -32,6 +32,7 @@ public class Test {
 
         // Test data structures.
         KeyValuePair.main(args);
+        BubbleSort.main(args);
         /* Call additional main routines as you create new data strutures. */
 
         return true;
