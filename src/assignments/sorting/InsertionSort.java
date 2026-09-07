@@ -1,18 +1,18 @@
 package assignments.sorting;
 
-public class InsertionSort extends SortingAlgorithm {
+public class InsertionSort<T extends Comparable<T>>  extends SortingAlgorithm<T> {
     /**
      * post condition: 'array' is sorted in ascending order
      * @param array an array of integers
      */
 
-    public void sort(Integer[] array) {
+    public void sort(T[] array) {
         for (int i = 1; i < array.length; i++)  {
             // loop starts at second index, because first is already sorted/fixed
-           int currentValue = array[i];
+           T currentValue = array[i];
            
            int j  = i - 1; 
-           while (j >= 0 && array[j] > currentValue) {
+           while (j >= 0 && array[j].compareTo(currentValue)>0) {
             array[j + 1] = array[j];
             j--; 
 
@@ -21,7 +21,7 @@ public class InsertionSort extends SortingAlgorithm {
         }
     }
     public static void main(String[] args) {
-        SortingAlgorithm.validate(new InsertionSort());
+        SortingAlgorithm.validate(new InsertionSort<Integer>());
         System.out.println("insertion sort has passed all tests.");
     }
 
