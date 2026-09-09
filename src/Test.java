@@ -29,12 +29,14 @@ public class Test {
     private static boolean runTests(String[] args) {
         // Test sorting algorithms.
         /* Call additional main routines here as you create new sorting algorithms. */
-
-        // Test data structures.
         KeyValuePair.main(args);
         BubbleSort.main(args);
         InsertionSort.main(args);
         SelectionSort.main(args);
+
+        // Test data structures.
+        Vector.main(args);
+
         /* Call additional main routines as you create new data strutures. */
 
         return true;
