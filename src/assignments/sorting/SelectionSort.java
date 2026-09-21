@@ -1,11 +1,10 @@
 package assignments.sorting;
 
 public class SelectionSort<T extends Comparable<T>> extends SortingAlgorithm<T> {
-/**
- * post condition: array is sorted in ascending order
- * @param array an array of integers
- */
-
+    /**
+     * post condition: array is sorted in ascending order using the selectionsort algorithm
+     * @param array an array of integers
+     */
     public void sort(T[] array) {
         for (int i = 0; i <array.length - 1; i++) { // this is the position we are currently filling in (i)
             int minIndex = i;
@@ -20,6 +19,11 @@ public class SelectionSort<T extends Comparable<T>> extends SortingAlgorithm<T> 
         }
 
     }
+    /**
+     * validation tests
+     * @params args command-line args
+     * 
+     */
     public static void main(String[] args) {
         SortingAlgorithm.validate(new SelectionSort<Integer>());
         System.out.println("selection sort has passed all tests.");
