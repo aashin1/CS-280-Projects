@@ -7,7 +7,7 @@ package assignments.sorting;
 public class BubbleSort<T extends Comparable<T>> extends SortingAlgorithm<T> {
 
 
-    /**
+/**
     sort an array in place with bubble sort
 
     post condition: 'array' is sorted in ascending order
@@ -25,14 +25,16 @@ public class BubbleSort<T extends Comparable<T>> extends SortingAlgorithm<T> {
             }
         }    
     }    
-    private void swap(T[] array, int i, int j) {
-        /**
+
+ /**
          * swap two elements within an array
          * 
          * @param array the array to swap values in 
          * @param i the first index to swap
          * @param j the second index to swap 
-         */
+*/
+    private void swap(T[] array, int i, int j) {
+
 
         T temp = array[i];
         array[i] = array[j];
