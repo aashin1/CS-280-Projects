@@ -1,6 +1,7 @@
 package assignments.datastructures;
-
+import java.util.Iterator;
 import adt.List;
+import adt.Stack;
 
 /// An extensible list backed by a chain of nodes.
 /// 
@@ -14,9 +15,10 @@ import adt.List;
 ///  one must first traverse through the chain of nodes from the beginning of the list.
 /// 
 /// @param <T> the type of each element
-public class LinkedList<T> implements List<T> {
+public class LinkedList<T> implements List<T>, Iterable<T>, Stack<T> {
     private Node head;
     private int size;
+
 
     /**
      * Initialize an empty linked list.
@@ -31,7 +33,7 @@ public class LinkedList<T> implements List<T> {
      * @return the number of items
      */
     public int length() {
-        // TODO implement this method
+        
         return this.size;
     }
     
@@ -42,9 +44,6 @@ public class LinkedList<T> implements List<T> {
      */
     public T at(int index) {
         assert 0 <= index && index < this.size;
-        // TODO implement this method
-        
-
 
         Node cursor = head;
         for (int i = 0; i<index; i++) {
@@ -60,7 +59,7 @@ public class LinkedList<T> implements List<T> {
      */
     public void set(int index, T value) {
         assert 0 <= index && index < this.size;
-        // TODO implement this method
+
         Node cursor = head;
         for (int i=0; i <index; i++) {
             cursor = cursor.link;
@@ -75,7 +74,7 @@ public class LinkedList<T> implements List<T> {
      * @return true iff the collection contains value
      */
     public boolean contains(T value) {
-        // TODO implement this method
+  
         Node cursor = head;
         while (cursor != null) {
             if (value.equals(cursor.data)) {
@@ -93,7 +92,7 @@ public class LinkedList<T> implements List<T> {
      */
     public void insert(int index, T value) {
         assert 0 <= index && index <= this.size;
-        // TODO implement this method
+
         if (index ==0) {
             head = new Node(value, head);
 
@@ -116,7 +115,7 @@ public class LinkedList<T> implements List<T> {
      */
     public T delete(int index) {
         assert 0 <= index && index < this.size;
-        // TODO implement this method
+        
         T removed;
         if (index == 0) {
             removed = head.data;
@@ -134,9 +133,50 @@ public class LinkedList<T> implements List<T> {
         return removed;
     }
 
+
+    public Iterator<T> iterator() {
+        return new ListIterator();       
+    }
+
+    /**
+     * check if stack has no items
+     * @return true if there are no items
+     */
+    public boolean isEmpty(){
+        return this.size == 0;
+    }
+
+    /**
+     * Adds an item to top of stack 
+     * @param value the item to add
+     */
+    public void push(T value){
+        this.insert(0, value);
+    }
+
+
+    /**
+     * remove from top of stack
+     * @return item that was returned
+     */
+    public T pop(){
+        assert !this.isEmpty();
+        return this.delete(0);
+    }
+
+    /**
+     * look at item at top of stack
+     * @return item that is looked at
+     */
+    public T peek() {
+        assert !this.isEmpty();
+        return this.at(0);
+    }
+
     /**
      * An encapsulation of a value with a pointer, allowing us to chain to another value.
      */
+
     private class Node {
         T data;
         Node link;
@@ -152,12 +192,73 @@ public class LinkedList<T> implements List<T> {
         }
     }
 
+    private class ListIterator implements Iterator<T> {
+        Node current;
+
+        ListIterator() {
+            current = head;
+        }
+    
+
+    public boolean hasNext(){
+        if (current == null) {
+            return false;
+         } else {
+                return true;
+            }
+    }
+    
+    public T next() {
+        T value = current.data;
+        current = current.link;
+        return value;
+    }
+}
+
     /**
      * Run validation tests.
      * @param args command-line args
      */
     public static void main(String[] args) {
         List.validate(new LinkedList<>());
+        Stack.validate(new LinkedList<>());
+        LinkedList<Integer> list = new LinkedList<>();
+        for (int i = 0; i < 5; i ++) list.insert(0, i);
+        Iterator<Integer> iter = list.iterator();
+        for (int i = 5; i > 0; i --) assert iter.next().equals(i-1);
+        assert !iter.hasNext();
+ 
         System.out.println("LinkedList passes all tests.");
     }
 }
+
+/**
+ * iterator
+ */
+class LinkedListIterator<T> implements Iterator<T> {
+    private LinkedList<T> list;
+    private int cursor;
+    public LinkedListIterator(LinkedList<T> list){
+        this.list = list;
+        this.cursor = 0;
+    }
+
+    /**
+     * check if there are more items to visit
+     * @return true if next can be called
+     */
+
+    public boolean hasNext(){
+        return cursor < list.length();
+    }
+    /**
+     * return current item and move to next
+     * @return next item in linked list
+     */
+    public T next() {
+        T value = list.at(cursor);
+        cursor++;
+        return value;
+    }
+}
+
