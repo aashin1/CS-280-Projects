@@ -1,6 +1,8 @@
 package assignments.datastructures;
-
 import adt.List;
+import java.util.Iterator;
+import adt.Stack; 
+
 
 /// An extensible list backed by an array buffer.
 /// 
@@ -13,11 +15,15 @@ import adt.List;
 /// This is a very expensive operation, so you want to make sure it occurs very infrequently.
 /// 
 /// @param <T> the type of each element
-public class Vector<T> implements List<T> {
+public class Vector<T> implements List<T>, Iterable<T>, Stack<T> {
     /** The initial amount of buffer space in a newly-created vector. */
     public static final int INITIAL_BUFFER_SIZE = 10;
     private T[] array;
     private int size;
+
+
+
+
 
     /**
      * Initialize an empty vector.
@@ -40,6 +46,8 @@ public class Vector<T> implements List<T> {
     public int length() {
 
         return this.size;
+
+
     }
     
     /**
@@ -52,6 +60,8 @@ public class Vector<T> implements List<T> {
         assert 0 <= index && index < this.size;
         return this.array[index];
     }
+
+    
     
     /**
      * Change an item in the list.
@@ -123,6 +133,15 @@ public class Vector<T> implements List<T> {
     }
 
     /**
+     * 
+     * iterator over items in this specific list- front to back
+     * @return a new iterator starting at the first item
+     */
+    public Iterator<T> iterator() {
+        return new VectorIterator<>(this);
+    }
+
+    /**
      * Resize the internal buffer array.
      * 
      * This method involves copying from the current buffer to a newly allocated one.
@@ -138,13 +157,101 @@ public class Vector<T> implements List<T> {
         this.array = newArray;
     }
 
+
+    /**
+     * 
+     * check if stack has no items
+     * @return true if and only if the stack is empty
+     * 
+     */
+    public  boolean isEmpty(){
+        return this.size == 0;
+    }
+
+    /**
+     * adds an item to the top of stack
+     * @param value (item to add)
+     */
+    public void push(T value){
+        this.insert(this.size, value);
+    }
+
+    /**
+     * remove item at top of stack
+     * @return item that was removed, stack cannot be empty
+     */
+
+    public T pop() {
+        assert !this.isEmpty();
+        return this.delete(this.size-1);
+    }
+
+    /**
+     * 
+     * look at next item, i.e. item on top of stack
+     * @return item on top
+     */
+
+    public T peek(){
+        assert !this.isEmpty();
+        return this.at(this.size-1);
+    }
+
     /**
      * Run validation tests.
      * @param args command-line args
      */
     public static void main(String[] args) {
         List.validate(new Vector<>());
+        Stack.validate(new Vector <>());
+        Vector<Integer> vector = new Vector<>();
+        for (int i = 0; i < INITIAL_BUFFER_SIZE; i ++) vector.insert(0, i);
+        Iterator<Integer> iter = vector.iterator();
+        for (int i = INITIAL_BUFFER_SIZE; i > 0; i --) assert iter.next().equals(i-1);
+        assert !iter.hasNext();
+
         System.out.println("Vector passes all tests.");
     }
-    
+}
+
+
+
+/**
+ * 
+ * walk through a vector's items in order
+ * @param <T> the type of each element
+ */
+class VectorIterator<T> implements  Iterator<T>{
+    private Vector<T> vector;
+    private int cursor;
+
+    /**
+     * 
+     * starts an iterator at the front of the given vector
+     * @param vector (vector to walk through)
+     * 
+     */
+    public VectorIterator(Vector<T> vector){
+        this.vector = vector;
+        this.cursor = 0;
+    }
+
+    /**
+     * checks if there are more items to visit
+     * @return false if there are no more items, true if there are
+     */
+    public boolean hasNext(){
+        return cursor < vector.length();
+    }
+
+    /**
+     * returns the current items and goes to the next
+     * @return the next item in the vector
+     */
+    public T next(){
+        T value = vector.at(cursor);
+        cursor++;
+        return value;
+    }
+
 }
