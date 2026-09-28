@@ -1,6 +1,7 @@
 package assignments.datastructures;
 import java.util.Iterator;
 import adt.List;
+import adt.Queue;
 
 /// A list that is extendable, operates with a circular chain of nodes
 /// 
@@ -9,7 +10,7 @@ import adt.List;
 /// Thus, we can insert at either the start or the end of the list without traversing the whole thing
 /// 
 /// @param <T> the type of each element
-public class CircularLinkedList<T> implements List<T>, Iterable<T> {
+public class CircularLinkedList<T> implements List<T>, Iterable<T>, Queue<T> {
     private Node tail;
     private int size;
 
@@ -138,6 +139,45 @@ public class CircularLinkedList<T> implements List<T>, Iterable<T> {
     }
 
 
+
+    /** 
+     * check if queue has no items
+     * @return true if there are no items
+     */
+
+    public boolean isEmpty() {
+        return this.size == 0;
+    }
+
+
+
+    /**
+     * enqueue, add an item to the back of the queue
+     * @param value the value to add
+     */
+    public void enqueue(T value) {
+        this.insert(this.size, value);
+    }
+
+    /**
+     * dequeue, remove the item at the front of the queue
+     * @return the value that was removed
+     */
+    public T dequeue() {
+        assert !this.isEmpty();
+        return this.delete(0);
+    }
+
+    /** 
+     * peek, report next item to be removed from the queue
+     * @return the item at the front of the queue
+     */
+
+    public  T peek() {
+        assert !this.isEmpty();
+        return this.at(0);
+    }
+
     /**
      * iterator over items in this list from front to back
      * @return a new iterator starting at the first item
@@ -209,6 +249,7 @@ public class CircularLinkedList<T> implements List<T>, Iterable<T> {
 
     public static void main(String[] args) {
         List.validate(new CircularLinkedList<>());
+        Queue.validate(new CircularLinkedList<>());
         CircularLinkedList<Integer> list = new CircularLinkedList<>();
         for (int i = 0; i < 5; i ++) list.insert(0, i);
         Iterator<Integer> iter = list.iterator();
