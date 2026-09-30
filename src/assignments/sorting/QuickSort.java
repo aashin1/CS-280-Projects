@@ -42,15 +42,15 @@ public class QuickSort<T extends Comparable<T>> extends SortingAlgorithm<T>  {
         }
 
         // put it all back in the array  left, then pivot, then right
-        int index= start;
-        for(int i = 0 ; i<leftPart.size(); i++){
-            array[index] = leftPart.get(i);
+        int index=start;
+        for(int i=0;i<leftPart.size();i++){
+            array[index]=leftPart.get(i);
             index++;
         }
         int pivotSpot = index;
         array[index] = pivot;
         index++;
-        for(int i = 0; i < rightPart.size(); i++){
+        for(int i=0;i<rightPart.size();i++){
             array[index] = rightPart.get(i);
             index = index + 1;
         }
