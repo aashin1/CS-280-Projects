@@ -21,7 +21,7 @@ public class MergeSort<T extends Comparable<T>> extends SortingAlgorithm<T>  {
     public void mergeSort(T[] array, int start, int end)
     {
         // base case, 0 or 1 items is already sorted
-        if(start>=end){
+        if(start >= end){
             return;
         }
 
@@ -38,7 +38,7 @@ public class MergeSort<T extends Comparable<T>> extends SortingAlgorithm<T>  {
         ArrayList<T> newList = new ArrayList<T>();
 
         // take the smaller of the two and move that cursor to the next item
-        while(leftCursor <=middle && rightCursor <= end ){
+        while(leftCursor <= middle && rightCursor <= end ){
             if(array[leftCursor].compareTo(array[rightCursor]) <= 0){
                 newList.add(array[leftCursor]);
                 leftCursor++;
@@ -50,18 +50,18 @@ public class MergeSort<T extends Comparable<T>> extends SortingAlgorithm<T>  {
         }
 
         // one half is all added, so bring in the rest of the other half in order
-        while(leftCursor<=middle){
+        while(leftCursor <= middle){
             newList.add(array[leftCursor]);
             leftCursor++;
         }
-        while(rightCursor<=end){
+        while(rightCursor <= end){
             newList.add(array[rightCursor]);
             rightCursor++;
         }
 
         // copy the new list back into the array
-        for(int i=0;i<newList.size();i++){
-            array[start+i]=newList.get(i);
+        for(int i = 0; i < newList.size();i++){
+            array[start+i] = newList.get(i);
         }
     }
 
@@ -74,3 +74,4 @@ public class MergeSort<T extends Comparable<T>> extends SortingAlgorithm<T>  {
         System.out.println("merge sort has passed all tests.");
     }
 }
+
