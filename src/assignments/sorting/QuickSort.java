@@ -26,40 +26,39 @@ public class QuickSort<T extends Comparable<T>> extends SortingAlgorithm<T>  {
         }
 
         // choose a pivot arbitrarily (chose last one)
+        // no new object is made when determing a pivot, it just acts as a reference
         T pivot = array[end];
 
-        ArrayList<T> leftPart = new ArrayList<T>();
-        ArrayList<T> rightPart = new ArrayList<T>();
+        // in order to keep track of where lements smaller than the pivot shall go
+        // instead of a seperate smaller list, a int index is made 
+
+        int smallElementi = start - 1;
 
         // put everything in left or right depending on pivot
-        for(int i = start; i<end; i++){
+        for(int i = start; i< end; i++){
             if(array[i].compareTo(pivot) <= 0){
-                leftPart.add(array[i]);
-            }
-            else {
-                rightPart.add(array[i]);
+               smallElementi = smallElementi + 1;
+               T temp = array[smallElementi];
+               array[smallElementi] = array[i];
+               array[i] = temp;
             }
         }
 
-        // put it all back in the array  left, then pivot, then right
-        int index=start;
-        for(int i=0;i<leftPart.size();i++){
-            array[index]=leftPart.get(i);
-            index++;
-        }
-        int pivotSpot = index;
-        array[index] = pivot;
-        index++;
-        for(int i=0;i<rightPart.size();i++){
-            array[index] = rightPart.get(i);
-            index = index + 1;
-        }
+        // put pivot element into its final correct spot
 
+
+        int pivotSpot = smallElementi + 1;
+        T tempPivot = array[pivotSpot];
+        array[pivotSpot] = array[end];
+        array[end] = tempPivot;
+
+  
         // pivot is in the correct place, so sort left the left and right sides
+
         quickSort(array, start, pivotSpot-1);
         quickSort(array, pivotSpot+1, end);
+    
     }
-
     /**
      * Validation tests.
      * @param args command-line args
@@ -69,3 +68,4 @@ public class QuickSort<T extends Comparable<T>> extends SortingAlgorithm<T>  {
         System.out.println("quick sort has passed all tests.");
     }
 }
+

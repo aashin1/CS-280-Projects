@@ -9,16 +9,21 @@ public class MergeSort<T extends Comparable<T>> extends SortingAlgorithm<T>  {
      * @param array the array to sort
      */
     public void sort(T[] array) {
-        mergeSort(array,0,array.length-1);
+        // this "work" array is the only allocation in the whole logic, made once here
+        T[] work = array.clone();
+
+        mergeSort(array, work, 0, array.length - 1);
     }
+
 
     /**
      * mergesort
      * @param array the array
      * @param start start index
+     * @param work buffer space the same size as array, which will be utilized during merging
      * @param end end index
      */
-    public void mergeSort(T[] array, int start, int end)
+    public void mergeSort(T[] array, T[] work, int start, int end)
     {
         // base case, 0 or 1 items is already sorted
         if(start >= end){
@@ -26,42 +31,49 @@ public class MergeSort<T extends Comparable<T>> extends SortingAlgorithm<T>  {
         }
 
         // split the list in half
-        int middle=(start+end)/2;
+        int middle = (start + end) / 2;
 
         // sort the left half and sort the right half
-        mergeSort(array, start, middle);
-        mergeSort(array, middle + 1, end);
+        // pass the same array and buffer down with indices, rather than creating new subarrays for each half
+        mergeSort(array, work, start, middle);
+        mergeSort(array, work, middle + 1, end);
 
         // cursors start at the smallest (leftmost) item in each half
         int leftCursor = start;
         int rightCursor = middle + 1;
-        ArrayList<T> newList = new ArrayList<T>();
 
-        // take the smaller of the two and move that cursor to the next item
+        // instead of creating a new list every merge, write it into the work array. workcursor starts at "start" so each merge uses its own slice of buffer
+        int workCursor = start;
+
+        // take smaller of two and move that cursor to next element
         while(leftCursor <= middle && rightCursor <= end ){
             if(array[leftCursor].compareTo(array[rightCursor]) <= 0){
-                newList.add(array[leftCursor]);
+                work[workCursor] = (array[leftCursor]);
                 leftCursor++;
             }
             else {
-                newList.add(array[rightCursor]);
-                rightCursor = rightCursor + 1;
+                work[workCursor] = array[rightCursor];
+                rightCursor++;
             }
+            workCursor++;
         }
 
         // one half is all added, so bring in the rest of the other half in order
         while(leftCursor <= middle){
-            newList.add(array[leftCursor]);
+            work[workCursor] = array[leftCursor];
+            workCursor++;
             leftCursor++;
         }
+
         while(rightCursor <= end){
-            newList.add(array[rightCursor]);
+            work[workCursor] = array[rightCursor];
             rightCursor++;
+            workCursor++;
         }
 
-        // copy the new list back into the array
-        for(int i = 0; i < newList.size();i++){
-            array[start+i] = newList.get(i);
+        // copy the merged section from the work array back into the original array. only the references are copied, nothing new is made
+        for(int i = start; i < end; i++){
+            array[i] = work[i];
         }
     }
 
