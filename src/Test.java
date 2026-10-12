@@ -39,6 +39,7 @@ public class Test {
         KeyValuePair.main(args);
         LinkedList.main(args);
         CircularLinkedList.main(args);
+        BinarySearchTree.main(args);
         //Queue.main(args);
         /* Call additional main routines as you create new data strutures. */
 
