@@ -72,7 +72,7 @@ public class MergeSort<T extends Comparable<T>> extends SortingAlgorithm<T>  {
         }
 
         // copy the merged section from the work array back into the original array. only the references are copied, nothing new is made
-        for(int i = start; i < end; i++){
+        for(int i = start; i <= end; i++){
             array[i] = work[i];
         }
     }
