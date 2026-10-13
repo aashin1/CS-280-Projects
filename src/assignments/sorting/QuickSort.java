@@ -1,12 +1,26 @@
 package assignments.sorting;
-import java.util.ArrayList;
 
+/**
+ * sorts arrays in ascending order using the quicksort algorithm.
+ * the algorithm picks a pivot element, rearranges the array so that every element
+ * less than or equal to the pivot comes before it and every larger element
+ * comes after it, and then recursively sorts the two sides. 
+ * no extra arrays are allocated, as it is all done in place
+ * @param <T> the type of element being stored (can be comparable) 
+ */
 public class QuickSort<T extends Comparable<T>> extends SortingAlgorithm<T>  {
-    public QuickSort() {} //for javadocs
+    
+    /**
+     * creates new quicksort instance
+     */
+
+    public QuickSort() {} 
 
     /**
      * sorts the array with quicksort
+     * around a pivot and recursively sorts each side
      * @param array the array to sort
+     * 
      */
     public void sort(T[] array) {
         quickSort(array,0,array.length-1);
@@ -18,7 +32,7 @@ public class QuickSort<T extends Comparable<T>> extends SortingAlgorithm<T>  {
      * @param start start index
      * @param end end index
      */
-    public void quickSort(T[] array, int start, int end)
+    private void quickSort(T[] array, int start, int end)
     {
         // base case
         if(start >= end){
