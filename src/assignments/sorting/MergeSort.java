@@ -1,8 +1,18 @@
 package assignments.sorting;
-import java.util.ArrayList;
+
+/**
+ * sorts arrays in ascending order using the mergesort algorithm.
+ * splits the array into two halves, and recursively sorts each half
+ * then merges the two sorted havles back together
+ * uses a single work array of the same size allocated just once as a buffer space for merging
+ * @param <T> comparable type of element being sorted
+ */
 
 public class MergeSort<T extends Comparable<T>> extends SortingAlgorithm<T>  {
-    public MergeSort() {} //for javadocs
+    
+    // creates a new instance of mergesort
+    
+    public MergeSort() {} 
 
     /**
      * sorts the array with mergesort
@@ -23,7 +33,7 @@ public class MergeSort<T extends Comparable<T>> extends SortingAlgorithm<T>  {
      * @param work buffer space the same size as array, which will be utilized during merging
      * @param end end index
      */
-    public void mergeSort(T[] array, T[] work, int start, int end)
+    private void mergeSort(T[] array, T[] work, int start, int end)
     {
         // base case, 0 or 1 items is already sorted
         if(start >= end){
