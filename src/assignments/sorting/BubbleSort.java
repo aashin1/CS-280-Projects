@@ -42,7 +42,7 @@ public class BubbleSort<T extends Comparable<T>> extends SortingAlgorithm<T> {
 
     /**
      * validation tests
-     * @params args command-line args
+     * @param args command-line args
      * 
      */
     public static void main(String[] args) {

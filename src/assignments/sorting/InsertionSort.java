@@ -5,6 +5,7 @@ package assignments.sorting;
 */
 
 public class InsertionSort<T extends Comparable<T>>  extends SortingAlgorithm<T> {
+   
     /**
      * Sorts given array using the insertion sort algorithm
      * post condition: 'array' is sorted in ascending order
@@ -28,8 +29,9 @@ public class InsertionSort<T extends Comparable<T>>  extends SortingAlgorithm<T>
 
     /**
      * validation tests
-     * @params args command-line args
+     * @param args command-line args
      */
+
     public static void main(String[] args) {
         SortingAlgorithm.validate(new InsertionSort<Integer>());
         System.out.println("insertion sort has passed all tests.");
