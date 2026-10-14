@@ -3,15 +3,13 @@ package assignments.datastructures;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import adt.Queue;
 import adt.Tree;
 
 /// A data structure where data is organized into a mathematical tree structure,
 ///  comprised of nodes which have at most two children.
 /// 
 /// The binary search tree satisfies the binary search tree condition:
-///  every node has a value greater than that of its less child,
+///  every node has a value greater than that of its left child,
 ///  and less than or equal to that of its right child.
 /// 
 /// @param <T> the type of each element, which must have a natural ordering
@@ -25,30 +23,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
         this.root = null;
     }
 
-    /**
-     * Manually construct a tree so we can test iterator methods.
-     * 
-     * NOTE: You will remove this method once we've learned how to add.
-     * 
-     * @param demo a specific sequence of numbers defined in the main method
-     */
-    public void fillForDay1Tests(T[] demo) {
-        this.root = new Node(demo[0]);
-        this.root.left = new Node(demo[1]);
-        this.root.left.left = new Node(demo[2]);
-        this.root.left.right = new Node(demo[3]);
-        this.root.left.left.right = new Node(demo[4]);
-        this.root.left.right.left = new Node(demo[5]);
-        this.root.left.left.right.right = new Node(demo[6]);
-        this.root.right = new Node(demo[7]);
-        this.root.left.left.right.right.left = new Node(demo[8]);
-        this.root.left.right.right = new Node(demo[9]);
-        this.root.left.right.left.right = new Node(demo[10]);
-        this.root.left.right.left.left = new Node(demo[11]);
-        this.root.left.right.right.right = new Node(demo[12]);
-        this.root.left.right.left.right.right = new Node(demo[13]);
-        this.root.left.left.right.right.right = new Node(demo[14]);
-    }
+
 
     /**
      * Compute the number of items in this tree.
@@ -58,7 +33,11 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
         
         return count(this.root);
     }
-        // recursive step
+    /**
+     * recursive step
+     * @param node root of the subtree, could be null
+     * @return numbers of nodes in subtree, 0 if empty
+     */
     private int count(Node node) {
         if (node==null){
             return 0;
@@ -76,6 +55,11 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
         return degree(this.root);
     }
 
+    /**
+     * recursively finds the largest number of children of any node in the subtree
+     * @param node root of subtree
+     * @return degree of subtree, 0 if empty
+     */
     private int degree(Node node) {
         if(node == null){
             return 0;
@@ -96,6 +80,12 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
         return height(this.root);
 
     }
+
+    /**
+     * recursively computes the height of the subtree rooted at node
+     * @param node root of subtree, could be null
+     * @return height of subtree, 0 if empty
+     */
     
     private int height(Node node) {
         if(node == null)
@@ -115,9 +105,14 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
     public Iterator<T> preorder() {
         List<T> result = new ArrayList<>(); // creates an empty list to store the values in with preorder
         preorder(this.root, result); // fills the list 
-        return result.iterator(); // returns an interator over the newly filled list
+        return result.iterator(); // returns an iterator over the newly filled list
     }
 
+    /**
+     * recursively adds subtree's values to list in preorder (node, left, right)
+     * @param node root of subtree, could be null
+     * @param result list that collects the values
+     */
     private void preorder(Node node, List <T> result) {
        if (node == null) return;
        result.add(node.data); // visits the current node first
@@ -135,6 +130,11 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
         return result.iterator();
     }
 
+    /**
+     * recursively adds the subtree's values to the list in in-order (left, node, right)
+     * @param node root of subtree, could be null
+     * @param result list that collects values
+     */
     private void inorder(Node node, List<T> result){
         if(node==null) return;
         inorder(node.left, result); // left tree first
@@ -152,6 +152,12 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
         return result.iterator();
     }
 
+    /**
+     * recursively add the subtree's values to the list in post-order
+     * post order is left, right, node
+     * @param node root of subtree
+     * @param result list that collects the values
+     */
     private void postorder(Node node, List<T> result){
         if (node==null) return; 
         postorder(node.left, result); // left subtree first
@@ -191,14 +197,23 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 
     
     /**
-     * 
-     * @param value
+     * inserts a value into the tree, value less than a node go to its left
+     * @param value value to insert
      * @return boolean, true or false if we modified the tree
      */
+
     public boolean add(T value) {
         this.root = add(value, this.root);
         return true;
     }
+
+    /**
+     * recursively inserts a value into the subtree rooted at the given node
+     * @param value value to insert
+     * @param node root of the subtree
+     * @return root of subtree after the insertion
+     */
+    
     private Node add(T value, Node node) {
 
         if(node==null)
@@ -216,18 +231,27 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 
     }
 
-
     /**
-     * 
-     * @param value
-     * @return boolean, true or false if we modified the tree
+     * remove one instance of a value from the tree if it exists 
+     * @param value the value to remove
+     * @return true if value was found and removed, false if the tree was never modified
      */
+
     public boolean remove (T value) {
         boolean found = contains(value); // if it is in tree, removing will modify tree
         this.root = remove(value, this.root);
         return found;
 
     }   
+
+    /**
+     * recursively removes a value from the subtree rooted at the given node
+     * node with two children is replaced by the smallest value in its right subtree
+     * @param value value that will be removed
+     * @param node the root of the subtree, could be
+     * @return boolean, true or false if we modified the tree
+     */
+
     private Node remove(T value, Node node) {     
         
         if (node==null)
@@ -255,6 +279,12 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 
     }
 
+    /**
+     * find node holding smallest value in subtree, which is rooted at the given node
+     * @param node root of the subtree, could be null
+     * @return the leftmost node (or null if subtree is empty)
+     */
+
     private Node findMin(Node node) {
         if (node == null)
             return null;
@@ -264,19 +294,28 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
         return node;
     }
 
+
     /**
-     * 
-     * @param value
-     * @return boolean, returns true if value is in the tree, false if it is not 
+     * checks if a value is present in the tree
+     * @param value the value that is searched for
+     * @return true if value is in tree, false if not
      */
+
     public boolean contains (T value) {
 
         return contains(value, this.root);
     }
 
+    /**
+     * recursively searches the subtree which holds a root at the given node for a value
+     * @param value the value that is looked for
+     * @param node root of the subtree (which could be null)
+     * @return boolean, returns true if value is in the tree, false if it is not 
+     */
+
     private boolean contains(T value, Node node) {
         if (node == null)
-        return false;
+            return false;
 
         int compareResult = value.compareTo(node.data);
         
@@ -315,24 +354,74 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
     public static void main(String[] args) {
         Tree.validate(new BinarySearchTree<>());
 
-        // Build a sample tree.
-        Integer[] numbers = {4, -4, -6, 0, -6, -3, -5, 5, -6, 0, -3, -4, 3, -3, -5};
+        // empty tree. everything is either 0 or false
+
         BinarySearchTree<Integer> tree = new BinarySearchTree<>();
-        tree.fillForDay1Tests(numbers);     // NOTE: To be replaced once we learn how to add.
+        assert tree.length() == 0; 
+        assert tree.degree() == 0;
+        assert tree.height() == 0;
+        assert !tree.contains(4);
+        assert !tree.remove(4); // removing something returns false
 
-        // Check structure.
-        assert tree.length() == 15;
-        assert tree.degree() == 2;
-        assert tree.height() == 6;
 
-        // Check traversals.
-        assert testTraversal(tree.preorder(),   new int[]{4, -4, -6, -6, -5, -6, -5, 0, -3, -4, -3, -3, 0, 3, 5});
-        assert testTraversal(tree.inorder(),    new int[]{-6, -6, -6, -5, -5, -4, -4, -3, -3, -3, 0, 0, 3, 4, 5});
-        assert testTraversal(tree.postorder(),  new int[]{-6, -5, -5, -6, -6, -4, -3, -3, -3, 3, 0, 0, -4, 5, 4});
-        assert testTraversal(tree.levelorder(), new int[]{4, -4, 5, -6, 0, -6, -3, 0, -5, -4, -3, 3, -6, -5, -3});
-        assert testTraversal(tree.iterator(),   new int[]{-6, -6, -6, -5, -5, -4, -4, -3, -3, -3, 0, 0, 3, 4, 5});
+        // adds 7 different numbers. 4 is root
 
-        System.out.println("BinarySearchTree passes all tests.");
+        tree.add(4);
+        tree.add(2);
+        tree.add(6);
+        tree.add(1);
+        tree.add(3);
+        tree.add(5);
+        tree.add(7);
+
+        // runs different traversal methods based on what was done by hand
+        assert testTraversal(tree.preorder(), new int[]{4, 2, 1, 3, 6 ,5, 7});
+        assert testTraversal(tree.inorder(), new int[]{1, 2, 3, 4, 5, 6, 7});
+        assert testTraversal(tree.postorder(), new int[]{1, 3, 2, 5, 7, 6, 4});
+        assert testTraversal(tree.levelorder(), new int[]{4, 2, 6, 1, 3, 5, 7});
+        assert testTraversal(tree.iterator(), new int[]{1, 2, 3, 4, 5, 6, 7});
+        
+        // checks if numbers are in tree or not
+
+        assert tree.contains(1);
+        assert tree.contains(3);
+        assert !tree.contains(8);
+        assert !tree.contains(0);
+
+        // removes a node with no children
+
+        assert tree.remove(1);
+        assert !tree.contains(1);
+        assert tree.length() == 6;
+        assert testTraversal(tree.inorder(), new int[]{2, 3, 4, 5, 6, 7});
+
+        // removes node with two children -- 6 gets replaced by 7, the smallest value in its right subtree
+
+        assert tree.remove(6);
+        assert tree.length() == 5;
+        assert testTraversal(tree.inorder(), new int[]{2, 3, 4, 5, 7});
+
+        // removes root, which also bears two children
+
+        assert tree.remove(4);
+        assert tree.length() ==4;
+        assert testTraversal(tree.inorder(), new int[]{2, 3, 5, 7});
+
+        // removing number that is not in tree should return false and change nothing
+
+        assert !tree.remove(10231);
+        assert tree.length() == 4;
+
+        // adding duplicate number
+
+        tree.add(5);
+        assert tree.length() == 5;
+        assert testTraversal(tree.inorder(), new int[]{2, 3, 5, 5, 7});
+
+
+        // if everything works, then this prints
+
+        System.out.println("binarysearchtree passes all tests");
     }
 
     /**
