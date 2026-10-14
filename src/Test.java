@@ -40,6 +40,7 @@ public class Test {
         LinkedList.main(args);
         CircularLinkedList.main(args);
         BinarySearchTree.main(args);
+        PriorityDequeuer.main(args);
         //Queue.main(args);
         /* Call additional main routines as you create new data strutures. */
 
