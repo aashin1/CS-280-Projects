@@ -46,7 +46,8 @@ public class Test {
         PriorityDequeuer.main(args);
         PriorityEnqueuer.main(args);
         MinHeap.main(args);
-
+        VectorSet.main(args);
+        TreeSet.main(args);
         //Queue.main(args);
         /* Call additional main routines as you create new data strutures. */
 
