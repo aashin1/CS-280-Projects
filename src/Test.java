@@ -48,6 +48,7 @@ public class Test {
         MinHeap.main(args);
         VectorSet.main(args);
         TreeSet.main(args);
+        HashSet.main(args);
         //Queue.main(args);
         /* Call additional main routines as you create new data strutures. */
 
